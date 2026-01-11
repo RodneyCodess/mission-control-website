@@ -124,7 +124,7 @@ export default function Home() {
         <div className="mt-4 space-y-3 text-sm">
           <div className="rounded-lg border border-white/10 bg-black/40 p-3">
             <div className="text-xs text-white/60">STATUS</div>
-            <div className="mt-1 text-green-400">ONLINE</div>
+            <div className="mt-1 text-green-400">ONLINE.</div>
           </div>
           <div className="rounded-lg border border-white/10 bg-black/40 p-3">
             <div className="text-xs text-white/60">BUILD</div>
