@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { arch } from "os";
 
 type GitHubRepo = {
     id: number;
@@ -63,7 +62,7 @@ export async function GET(req: Request) {
         updatedAt: r.updated_at,      // last updated timestamp
         pushed_at: r.pushed_at,
         archived: r.archived ?? false,
-        repo: r.repo,
+        repo: r.name,
     }));
 
     return  NextResponse.json({
