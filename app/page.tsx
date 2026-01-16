@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import LeftNav, { MainView } from "./components/LeftNav";
 import MissionCard, { Mission, MissionStatus } from "./components/MissionCard";
 import BriefModal from "./components/BriefModal";
+import MissionsModal from "./components/MissionsModal";
 
 type ReadmeOk = { ok: true; markdown: string };
 type ReadmeErr = { ok: false; error: string; code?: string };
@@ -47,6 +48,10 @@ export default function Home() {
   const [briefLoading, setBriefLoading] = useState(false);
   const [briefError, setBriefError] = useState<string | null>(null);
   const [briefMarkdown, setBriefMarkdown] = useState("");
+
+
+  //view missions
+  const [missionsOpen, setMissionsOpen] = useState(false);
 
   // Comms feed state
   const comms = [
@@ -182,19 +187,36 @@ export default function Home() {
 
             {/* View switching */}
             {activeView === "missions" && (
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                {loadingMissions && (
-                  <div className="rounded-lg border border-white/10 bg-black/40 p-4 text-sm text-white/60">
-                    Loading missions from GitHub...
-                  </div>
-                )}
+              <div>
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="text-sm text-white/60">
+                    Showing{" "}
+                    <span className="text-white/80 font-medium">{featuredMissions.length}</span>{" "}
+                    featured missions
+                  </div>  
+                  <button
+                    type="button"
+                    onClick={() => setMissionsOpen(true)}
+                    className="rounded-md border border-white/15 px-3 py-2 text-xs hover:bg-white/5 transition"
+                  >
+                    VIEW ALL MISSIONS ({missions.length})
+                  </button>
+                </div>
+                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {loadingMissions && (
+                    <div className="rounded-lg border border-white/10 bg-black/40 p-4 text-sm text-white/60">
+                      Loading missions from GitHub...
+                    </div>
+                  )}
 
-                {!loadingMissions &&
-                  featuredMissions.map((m) => (
+                  {!loadingMissions &&
+                    featuredMissions.map((m) => (
                     <MissionCard key={m.id} mission={m} status={getStatus(m)} onBrief={openBrief} />
-                  ))}
+                    ))}
+                </div>
               </div>
             )}
+
 
             {activeView === "logs" && (
               <div className="mt-6 rounded-lg border border-white/10 bg-black/40 p-4 text-sm text-white/70">
@@ -291,6 +313,18 @@ export default function Home() {
           </aside>
         </div>
       </div>
+
+      {/* All Mission Modal*/}
+      <MissionsModal
+        open={missionsOpen}
+        onClose={() => setMissionsOpen(false)}
+        missions={missions}
+        onBrief={(m) => {
+          setMissionsOpen(false)
+          openBrief(m)
+        }}
+      />
+
 
       {/* Brief modal overlay */}
       <BriefModal

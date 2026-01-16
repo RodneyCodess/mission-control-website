@@ -25,7 +25,13 @@ type MissionCardProps = {
 
 export default function MissionCard({ mission: m, status, onBrief }: MissionCardProps) {
   return (
-    <div className="rounded-lg border border-white/10 bg-black/40 p-4">
+    <div className="rounded-lg border border-white/10 bg-black/40 p-4
+        transition duration-200
+        hover:bg-white/5 hover:border-white/20
+        hover:-translate-y-1
+        hover:shadow-lg hover:shadow-black/40"
+    >
+
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-xs text-white/60">MISSION</div>
