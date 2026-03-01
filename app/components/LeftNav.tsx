@@ -10,7 +10,6 @@ type LeftNavProps = {
 export default function LeftNav({ active, onChange }: LeftNavProps) {
   const item = (id: MainView, label: string) => {
     const isActive = active === id;
-
     return (
       <button
         key={id}
@@ -27,16 +26,18 @@ export default function LeftNav({ active, onChange }: LeftNavProps) {
   };
 
   return (
-    <aside className="rounded-xl border border-white/10 bg-white/5 p-4">
+    <aside
+      className="rounded-xl border border-white/10 bg-white/5 p-4"
+      style={{ width: "220px", flexShrink: 0, overflow: "hidden" }}
+    >
       <div className="mb-3 text-xs tracking-widest text-white/60">NAV</div>
       <div className="space-y-1">
         {item("missions", "Missions")}
         {item("systems", "Systems")}
         {item("certs", "Certs")}
         {item("logs", "Logs")}
-        {item("about", "About")}
+        {item("about", "About Me")}
       </div>
     </aside>
   );
 }
-

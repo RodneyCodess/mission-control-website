@@ -5,6 +5,7 @@ import LeftNav, { MainView } from "./components/LeftNav";
 import MissionCard, { Mission, MissionStatus } from "./components/MissionCard";
 import BriefModal from "./components/BriefModal";
 import MissionsModal from "./components/MissionsModal";
+import TelemetryPanel from "./components/TelemetryPanel";
 
 type ReadmeOk = { ok: true; markdown: string };
 type ReadmeErr = { ok: false; error: string; code?: string };
@@ -173,17 +174,75 @@ export default function Home() {
         </header>
 
         {/* 3-column layout */}
-        <section className="mx-auto grid max-w-6xl grid-cols-1 gap-4 p-6 md:grid-cols-[220px_1fr_260px]">
+        <section
+          className="mx-auto max-w-6xl px-6 pt-6"
+          style={{ display: "flex", gap: "1rem", height: "440px", width: "100%" }}
+        >
           {/* Left nav (component) */}
           <LeftNav active={activeView} onChange={setActiveView} />
 
           {/* Main screen */}
-          <div className="rounded-xl border border-white/10 bg-white/5 p-6">
+          <div
+            className="rounded-xl border border-white/10 bg-white/5 p-6"
+            style={{ flex: 1, overflow: "hidden", minWidth: 0 }}
+          >
             <div className="mb-2 text-xs tracking-widest text-white/60">MAIN SCREEN</div>
-            <h1 className="text-3xl font-semibold">Orbital Mission Control</h1>
-            <p className="mt-2 max-w-prose text-white/70">
-              Tracking projects, systems, and launches. Click a mission to view the briefing.
-            </p>
+
+            {/* Header changes depending on tab */}
+            {activeView === "missions" ? (
+              <>
+                <h1 className="text-3xl font-semibold">Orbital Mission Control</h1>
+                <p className="mt-2 max-w-prose text-white/70">
+                  Tracking projects, systems, and launches. Click a mission to view the briefing.
+                </p>
+              </>
+            ) : activeView === "about" ? (
+              <>
+
+                <div className="mt-6">
+                  {/* Header */}
+                  <div className="mb-5">
+                    <div className="text-xs tracking-widest text-white/60">CANDIDATE DOSSIER</div>
+                    <h2 className="mt-2 text-4xl font-semibold">Rodney Garnett</h2>
+                    <p className="mt-2 text-white/70">
+                      Computer Science @ University at Buffalo • building practical software projects.
+                    </p>
+                  </div>
+
+                  <div className="mt-6">
+                    {/* Summary */}
+                  <div className="rounded-lg border border-white/10 bg-black/40 p-4">
+                    <div className="text-xs tracking-widest text-white/60">SUMMARY</div>
+                    {/*Scrollable box for about me */}
+                    <div className="mt-2 max-h-[125px] overflow-auto pr-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+                      <p className="mt-2 text-white/70">
+                        Im Rodney, a Computer Science student at the University at Buffalo. 
+                        I am building my way in tech one project at a time, focusing on software that solves real-world problems
+                        or just a solid learning challenge. My stack includes :{" "}
+                          <span className="text-white font-medium">
+                            Python • Java • TypeScript
+                          </span>, and I’m always expanding my toolkit with also frameworks and APIs.
+                        I built this eportfolio website to show me and my projects in a creative way and practice real world engineering skills. like APIs and data handling.
+                        my interests include :{" "}  
+                        <span className="text-white font-medium">
+                          Backend • Cloud • Infrastructure • Distributed Systems • Applied AI/ML
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                
+              </>
+            ) : (
+              <> 
+                <h1 className="text-3xl font-semibold capitalize">{activeView}</h1>
+                <p className="mt-2 max-w-prose text-white/70">
+                  Section placeholder — we’ll build this next.
+                </p>
+              </>
+
+            )}
 
             {/* View switching */}
             {activeView === "missions" && (
@@ -224,11 +283,6 @@ export default function Home() {
               </div>
             )}
 
-            {activeView === "about" && (
-              <div className="mt-6 rounded-lg border border-white/10 bg-black/40 p-4 text-sm text-white/70">
-                About screen placeholder — next we can add your bio + resume + links.
-              </div>
-            )}
 
             {activeView === "systems" && (
               <div className="mt-6 rounded-lg border border-white/10 bg-black/40 p-4 text-sm text-white/70">
@@ -244,52 +298,18 @@ export default function Home() {
           </div>
 
           {/* Telemetry */}
-          <aside className="rounded-xl border border-white/10 bg-white/5 p-4">
-            <div className="mb-3 text-xs tracking-widest text-white/60">TELEMETRY</div>
-
-            {/* GitHub Activity card */}
-            <div className="rounded-xl border border-white/10 bg-black/40 p-4">
-              <div className="flex items-center justify-between">
-                <div className="text-xs tracking-widest text-white/60">GITHUB ACTIVITY</div>
-                <div className="text-xs text-white/50">LAST 14 DAYS</div>
-              </div>
-
-              {/* Placeholder bars for now */}
-              <div className="mt-3 flex items-end gap-1.5">
-                {[2, 4, 3, 6, 8, 5, 3, 7, 9, 6, 4, 8, 5, 7].map((h, idx) => (
-                  <div
-                    key={idx}
-                    className="w-2 rounded-sm bg-white/70"
-                    style={{ height: `${h * 8}px` }}
-                    title={`Day ${idx + 1}`}
-                  />
-                ))}
-              </div>
-
-              <div className="mt-3 flex items-center justify-between text-xs text-white/60">
-                <span>Commits (7d): --</span>
-                <span className="text-white/50">Stack: Python • Java • TS</span>
-              </div>
-            </div>
-
-            {/* Small cards */}
-            <div className="mt-4 space-y-3 text-sm">
-              <div className="rounded-lg border border-white/10 bg-black/40 p-3">
-                <div className="text-xs text-white/60">STATUS</div>
-                <div className="mt-1 text-green-400">ONLINE</div>
-              </div>
-
-              <div className="rounded-lg border border-white/10 bg-black/40 p-3">
-                <div className="text-xs text-white/60">BUILD</div>
-                <div className="mt-1">v0.1</div>
-                <div className="mt-1 text-xs text-white/50">Last deploy: --</div>
-              </div>
-            </div>
-          </aside>
+          <TelemetryPanel
+            activeView={activeView}
+            buildVersion="v0.1"
+            statusText="ONLINE"
+            // later we can pass real data:
+            // bars14d={bars}
+            // commits7d={commits7d}
+/>
         </section>
 
         {/* Bottom bar --> comms feed */}
-        <div className="mx-auto max-w-6xl px-6 mt-4">
+        <div className="mx-auto max-w-6xl w-full px-6 mt-8">
           <aside className="w-full rounded-xl border border-white/10 bg-white/5 px-5 py-4 overflow-hidden flex items-center gap-4 shadow-lg shadow-black/30">
             {/* left label */}
             <div className="text-xs tracking-widest text-white/60 flex items-center gap-2">

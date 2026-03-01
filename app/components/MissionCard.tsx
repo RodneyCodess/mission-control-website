@@ -42,10 +42,7 @@ export default function MissionCard({ mission: m, status, onBrief }: MissionCard
           {status}
         </div>
       </div>
-
-      <p className="mt-2 text-sm text-white/70">
-        {m.desc || "No description yet (add one on GitHub)."}
-      </p>
+      
 
       <div className="mt-3 flex items-center justify-between text-xs text-white/60">
         <span>{m.language || "—"}</span>
