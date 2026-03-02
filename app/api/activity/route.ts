@@ -23,7 +23,7 @@ export async function GET(req: Request) {
         Accept: "application/vnd.github+json",
         "User-Agent": "mission-control-portfolio",
       },
-      next: { revalidate: 3600 },
+      cache: "no-store",
     }
   );
 
