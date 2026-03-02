@@ -42,6 +42,10 @@ export default function Home() {
   const [missions, setMissions] = useState<Mission[]>([]);
   const [loadingMissions, setLoadingMissions] = useState(true);
 
+  // GitHub activity
+  const [bars14d, setBars14d] = useState<number[]>([]);
+  const [commits7d, setCommits7d] = useState<number | null>(null);
+
   // Brief modal state
   const [briefOpen, setBriefOpen] = useState(false);
   const [briefTitle, setBriefTitle] = useState("");
@@ -64,6 +68,23 @@ export default function Home() {
   ];
   const [commsIndex, setCommsIndex] = useState(0);
   const [flash, setFlash] = useState(false);
+
+  // Load GitHub activity
+  useEffect(() => {
+    async function loadActivity() {
+      try {
+        const res = await fetch(`/api/activity?user=${encodeURIComponent(GITHUB_USER)}`);
+        const data = await res.json();
+        if (data.ok) {
+          setBars14d(data.bars14d);
+          setCommits7d(data.commits7d);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    loadActivity();
+  }, []);
 
   // Load missions once
   useEffect(() => {
@@ -175,16 +196,16 @@ export default function Home() {
 
         {/* 3-column layout */}
         <section
-          className="mx-auto max-w-6xl px-6 pt-6"
-          style={{ display: "flex", gap: "1rem", height: "440px", width: "100%" }}
+          className="mx-auto max-w-6xl"
+          style={{ display: "flex", gap: "1rem", height: "460px", width: "100%", padding: "24px 24px 0 24px", marginTop: "24px" }}
         >
           {/* Left nav (component) */}
           <LeftNav active={activeView} onChange={setActiveView} />
 
           {/* Main screen */}
           <div
-            className="rounded-xl border border-white/10 bg-white/5 p-6"
-            style={{ flex: 1, overflow: "hidden", minWidth: 0 }}
+            className="rounded-xl border border-white/10 bg-white/5"
+            style={{ flex: 1, overflow: "hidden", minWidth: 0, padding: "20px" }}
           >
             <div className="mb-2 text-xs tracking-widest text-white/60">MAIN SCREEN</div>
 
@@ -302,10 +323,9 @@ export default function Home() {
             activeView={activeView}
             buildVersion="v0.1"
             statusText="ONLINE"
-            // later we can pass real data:
-            // bars14d={bars}
-            // commits7d={commits7d}
-/>
+            bars14d={bars14d}
+            commits7d={commits7d}
+          />
         </section>
 
         {/* Bottom bar --> comms feed */}

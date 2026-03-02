@@ -27,8 +27,8 @@ export default function LeftNav({ active, onChange }: LeftNavProps) {
 
   return (
     <aside
-      className="rounded-xl border border-white/10 bg-white/5 p-4"
-      style={{ width: "220px", flexShrink: 0, overflow: "hidden" }}
+      className="rounded-xl border border-white/10 bg-white/5"
+      style={{ width: "220px", flexShrink: 0, overflow: "hidden", padding: "20px" }}
     >
       <div className="mb-3 text-xs tracking-widest text-white/60">NAV</div>
       <div className="space-y-1">
